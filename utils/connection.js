@@ -1,8 +1,8 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 require("dotenv").config();
-const uri = process.env.MONGODB_URI;
 
-const dbName = "test";
+const uri = process.env.MONGODB_URI;
+const dbName = process.env.DB_NAME;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -15,9 +15,8 @@ const client = new MongoClient(uri, {
 async function connectDB() {
   try {
     await client.connect();
-    const db = client.db(dbName);
     console.log("DB Connected");
-    return db;
+    return client.db(dbName);
   } catch (error) {
     await client.close();
     console.log("DB Disconnected!");
