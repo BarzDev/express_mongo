@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const connectDB = require("./utils/connection");
 
 const postingRoutes = require("./routes/posting");
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
