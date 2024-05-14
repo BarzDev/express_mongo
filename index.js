@@ -16,7 +16,7 @@ app.get("/posting", async (req, res) => {
   }
 });
 
-app.get("/posting/:id", async (req, res) => {
+app.get("/posting/find/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const db = await connectDB();
@@ -54,7 +54,12 @@ app.post("/posting", async (req, res) => {
     }
 
     const db = await connectDB();
-    const data = req.body;
+    const data = {
+      username,
+      content,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
     await db.collection("postings").insertOne(data);
     res
       .status(201)
@@ -76,7 +81,7 @@ app.put("/posting/:id", async (req, res) => {
       .collection("postings")
       .findOneAndUpdate(
         { _id: new ObjectId(id) },
-        { $set: { username, content } },
+        { $set: { username, content, updatedAt: new Date() } },
         { returnOriginal: false }
       );
 
